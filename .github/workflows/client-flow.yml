@@ -24,6 +24,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - uses: actions/cache@v1
+      env:
+        cache-name: cache-client-modules
+      with:
+        path: ~/.npm
+        key: npm-${{ env.cache-name }}-${{ hashFiles('client/package-lock.json') }}
+        restore-keys: |
+          npm-${{ env.cache-name }}-${{ hashFiles('client/package-lock.json') }}
     - run: npm ci --prefix client
     - run: npm run flow --prefix client
       env:
