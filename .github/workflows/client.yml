@@ -21,12 +21,12 @@ jobs:
     - name: Cache node modules
       uses: actions/cache@v1
       env:
-        cache-name: cache-node-modules
+        client-cache-name: cache-client-node-modules
       with:
         path: ./client/node_modules
-        key: npm-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          npm-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
     - run: npm ci --prefix client    
       env:
         CI: true
@@ -39,6 +39,15 @@ jobs:
        uses: actions/setup-node@v1
        with:
          node-version: 12.13.1
+     - name: Cache node modules
+       uses: actions/cache@v1
+       env:
+         client-cache-name: cache-client-node-modules
+       with:
+         path: ./client/node_modules
+         key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+         restore-keys: |
+           npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}  
      - run: npm run lint --prefix client    
      env:
        CI: true
