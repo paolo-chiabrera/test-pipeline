@@ -27,7 +27,7 @@ jobs:
         key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
-    - run: npm ci --prefix client    
+    - run: npm i --prefix client    
       env:
         CI: true
   lint:
@@ -49,5 +49,48 @@ jobs:
          restore-keys: |
            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}  
      - run: npm run lint --prefix client    
+     env:
+       CI: true
+  test:
+     needs: install-deps
+     runs-on: ubuntu-latest
+     steps:
+     - uses: actions/checkout@v2
+     - name: Use Node.js
+       uses: actions/setup-node@v1
+       with:
+         node-version: 12.13.1
+     - name: Cache node modules
+       uses: actions/cache@v1
+       env:
+         client-cache-name: cache-client-node-modules
+       with:
+         path: ./client/node_modules
+         key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+         restore-keys: |
+           npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}  
+     - run: npm run test --prefix client    
+     env:
+       CI: true
+       NODE_ENV: test
+  flow:
+     needs: install-deps
+     runs-on: ubuntu-latest
+     steps:
+     - uses: actions/checkout@v2
+     - name: Use Node.js
+       uses: actions/setup-node@v1
+       with:
+         node-version: 12.13.1
+     - name: Cache node modules
+       uses: actions/cache@v1
+       env:
+         client-cache-name: cache-client-node-modules
+       with:
+         path: ./client/node_modules
+         key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+         restore-keys: |
+           npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}  
+     - run: npm run flow --prefix client    
      env:
        CI: true
