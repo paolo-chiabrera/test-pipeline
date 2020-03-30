@@ -30,7 +30,7 @@ jobs:
     - run: npm ci --prefix client    
       env:
         CI: true
-   lint:
+  lint:
      needs: install-deps
      runs-on: ubuntu-latest
      steps:
