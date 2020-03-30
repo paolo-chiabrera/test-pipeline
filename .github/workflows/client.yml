@@ -27,7 +27,7 @@ jobs:
         key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
-    - run: npm ci --prefix client    
+    - run: npm i --prefix client    
       env:
         CI: true
   lint:
