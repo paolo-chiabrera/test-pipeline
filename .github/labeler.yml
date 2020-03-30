@@ -1,5 +1,7 @@
 client:
   - client/**/*
+pipeline:
+  - .github/**/*
 test:
   - /**/test/**/*
   - /**/*.test.*
