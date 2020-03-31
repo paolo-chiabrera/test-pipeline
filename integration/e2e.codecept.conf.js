@@ -4,27 +4,26 @@ const { setHeadlessWhen } = require('@codeceptjs/configure');
 // HEADLESS=true npx codecept run
 setHeadlessWhen(process.env.HEADLESS);
 
+const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || `localhost:${PORT}`;
+
 exports.config = {
-  tests: './tests/*.test.js',
-  output: './tests/output',
+  tests: './e2e/*.test.js',
+  output: './e2e/output',
   helpers: {
     Puppeteer: {
-      url: 'http://localhost',
-      show: false
-    }
-  },
-  include: {
-    I: './steps_file.js'
+      url: `http://${HOST}`,
+      show: false,
+    },
   },
   bootstrap: null,
   mocha: {},
-  name: 'client',
   plugins: {
     retryFailedStep: {
-      enabled: true
+      enabled: true,
     },
     screenshotOnFail: {
-      enabled: true
-    }
-  }
-}
+      enabled: true,
+    },
+  },
+};

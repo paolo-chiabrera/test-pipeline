@@ -1,0 +1,30 @@
+{
+  "name": "test-pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "e2e": "codeceptjs run -c ./integration/e2e.codecept.conf.js",
+    "pree2e": "npm run server:start:background && wait-on --httpTimeout 5000 http://localhost:5000/",
+    "server:start:background": "forever start -c \"npm start\" ./server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paolo-chiabrera/test-pipeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paolo-chiabrera/test-pipeline/issues"
+  },
+  "homepage": "https://github.com/paolo-chiabrera/test-pipeline#readme",
+  "dependencies": {
+    "codeceptjs": "^2.5.0",
+    "forever": "^2.0.0",
+    "puppeteer": "^2.1.1",
+    "wait-on": "^4.0.1"
+  }
+}
