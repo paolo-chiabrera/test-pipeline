@@ -1,0 +1,26 @@
+{
+  "name": "test-pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "e2e": "codeceptjs run -c ./integration/codecept.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paolo-chiabrera/test-pipeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paolo-chiabrera/test-pipeline/issues"
+  },
+  "homepage": "https://github.com/paolo-chiabrera/test-pipeline#readme",
+  "dependencies": {
+    "codeceptjs": "^2.5.0",
+    "puppeteer": "^2.1.1"
+  }
+}
