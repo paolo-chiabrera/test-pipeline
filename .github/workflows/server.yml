@@ -1,0 +1,61 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+checkout: &checkout
+  - uses: actions/checkout@v2
+
+setup-node: &setup_node
+  - name: Use Node.js
+    uses: actions/setup-node@v1
+    with:
+      node-version: 12.13.1
+
+cache-node-modules: &cache_node_modules
+  - name: Cache node modules
+    uses: actions/cache@v1
+    env:
+      server-cache-name: cache-server-node-modules
+    with:
+      path: ./server/node_modules
+      key: npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      restore-keys: |
+        npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+name: server
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  install-deps:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      <<: *checkout
+      <<: *setup_node
+      <<: *cache_node_modules
+      - run: npm i --prefix server
+  lint:
+    needs: install-deps
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      <<: *checkout
+      <<: *setup_node
+      <<: *cache_node_modules
+      - run: npm run lint --prefix server
+  test:
+    needs: install-deps
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NODE_ENV: test
+    steps:
+      <<: *checkout
+      <<: *setup_node
+      <<: *cache_node_modules
+      - run: npm run test --prefix server
