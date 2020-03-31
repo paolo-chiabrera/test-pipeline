@@ -221,7 +221,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.13.1
-      - name: Cache node modules
+      - name: Restore root node_modules
         uses: actions/cache@v1
         env:
           root-cache-name: cache-root-node-modules
@@ -230,4 +230,13 @@ jobs:
           key: npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
+      - name: Restore server node_modules
+        uses: actions/cache@v1
+        env:
+          server-cache-name: cache-server-node-modules
+        with:
+          path: ./server/node_modules
+          key: npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
+          restore-keys: |
+            npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
       - run: npm run e2e
