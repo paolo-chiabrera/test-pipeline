@@ -207,36 +207,37 @@ jobs:
           restore-keys: |
             npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
       - run: npm run test --prefix server
-
   # integration
-  test-e2e:
-    needs: [install-deps-root, build-client]
-    runs-on: ubuntu-latest
-    env:
-      CI: true
-      NODE_ENV: test
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.13.1
-      - name: Restore root node_modules
-        uses: actions/cache@v1
-        env:
-          root-cache-name: cache-root-node-modules
-        with:
-          path: ./node_modules
-          key: npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
-      - name: Restore server node_modules
-        uses: actions/cache@v1
-        env:
-          server-cache-name: cache-server-node-modules
-        with:
-          path: ./server/node_modules
-          key: npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
-          restore-keys: |
-            npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
-      - run: npm run e2e
+  # test-e2e:
+  #   needs: [install-deps-root, build-client]
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     CI: true
+  #     NODE_ENV: test
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: 12.13.1
+  #     - name: Restore root node_modules
+  #       uses: actions/cache@v1
+  #       env:
+  #         root-cache-name: cache-root-node-modules
+  #       with:
+  #         path: ./node_modules
+  #         key: npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
+  #         restore-keys: |
+  #           npm-${{ env.root-cache-name }}-${{ hashFiles('package-lock.json') }}
+  #     - name: Restore server node_modules
+  #       uses: actions/cache@v1
+  #       env:
+  #         server-cache-name: cache-server-node-modules
+  #       with:
+  #         path: ./server/node_modules
+  #         key: npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
+  #         restore-keys: |
+  #           npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
+  #     - run: npm run start --prefix server
+  #     - run: npx wait-on --httpTimeout 5000 http://localhost:5000/
+  #     - run: npm run e2e
