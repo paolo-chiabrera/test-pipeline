@@ -7,7 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "e2e": "codeceptjs run -c ./integration/codecept.conf.js"
+    "e2e": "codeceptjs run -c ./integration/e2e.codecept.conf.js",
+    "pree2e": "npm run server:start:background && wait-on http://localhost:5000/",
+    "server:start:background": "forever start -c \"npm start\" ./server"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,8 @@
   "homepage": "https://github.com/paolo-chiabrera/test-pipeline#readme",
   "dependencies": {
     "codeceptjs": "^2.5.0",
-    "puppeteer": "^2.1.1"
+    "forever": "^2.0.0",
+    "puppeteer": "^2.1.1",
+    "wait-on": "^4.0.1"
   }
 }

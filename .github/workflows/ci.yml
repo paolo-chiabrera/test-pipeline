@@ -207,3 +207,27 @@ jobs:
           restore-keys: |
             npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
       - run: npm run test --prefix server
+
+  # integration
+  test-e2e:
+    needs: [install-deps-root, build-client]
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.13.1
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          server-cache-name: cache-server-node-modules
+        with:
+          path: ./server/node_modules
+          key: npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
+          restore-keys: |
+            npm-${{ env.server-cache-name }}-${{ hashFiles('server/package-lock.json') }}
+      - run: npm run e2e
