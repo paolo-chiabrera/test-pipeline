@@ -25,10 +25,31 @@ jobs:
           client-cache-name: cache-client-node-modules
         with:
           path: ./client/node_modules
-          key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
       - run: npm i --prefix client
+
+  install-deps-root:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.13.1
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          root-cache-name: cache-root-node-modules
+        with:
+          path: ./node_modules
+          key: npm-${{ env.root-cache-name }}-${{ hashFiles('./package-lock.json') }}
+          restore-keys: |
+            npm-${{ env.root-cache-name }}-${{ hashFiles('./package-lock.json') }}
+      - run: npm i
 
   install-deps-server:
     runs-on: ubuntu-latest
@@ -46,9 +67,9 @@ jobs:
           server-cache-name: cache-server-node-modules
         with:
           path: ./server/node_modules
-          key: npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
       - run: npm i --prefix server
 
   # client
@@ -69,9 +90,9 @@ jobs:
           client-cache-name: cache-client-node-modules
         with:
           path: ./client/node_modules
-          key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
       - run: npm run lint --prefix client
 
   test-client:
@@ -92,9 +113,9 @@ jobs:
           client-cache-name: cache-client-node-modules
         with:
           path: ./client/node_modules
-          key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
       - run: npm run test --prefix client
 
   flow-client:
@@ -114,9 +135,9 @@ jobs:
           client-cache-name: cache-client-node-modules
         with:
           path: ./client/node_modules
-          key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
       - run: npm run flow --prefix client
 
   build-client:
@@ -136,9 +157,9 @@ jobs:
           client-cache-name: cache-client-node-modules
         with:
           path: ./client/node_modules
-          key: npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.client-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.client-cache-name }}-${{ hashFiles('./client/package-lock.json') }}
       - run: npm run build --prefix client
 
   # server
@@ -159,9 +180,9 @@ jobs:
           server-cache-name: cache-server-node-modules
         with:
           path: ./server/node_modules
-          key: npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
       - run: npm run lint --prefix server
 
   test-server:
@@ -182,7 +203,7 @@ jobs:
           server-cache-name: cache-server-node-modules
         with:
           path: ./server/node_modules
-          key: npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
           restore-keys: |
-            npm-${{ env.server-cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            npm-${{ env.server-cache-name }}-${{ hashFiles('./server/package-lock.json') }}
       - run: npm run test --prefix server
