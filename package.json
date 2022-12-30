@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/paolo-chiabrera/test-pipeline#readme",
   "dependencies": {
-    "codeceptjs": "^2.5.0",
+    "codeceptjs": "^3.0.0",
     "forever": "^2.0.0",
     "puppeteer": "^2.1.1",
     "wait-on": "^4.0.1"
